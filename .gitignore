@@ -1,0 +1,38 @@
+# ── Large raster data — never push ───────────────────────────────────────────
+data/
+*.tif
+*.tiff
+*.db
+*.gpkg
+
+# ── Reports ───────────────────────────────────────────────────────────────────
+reports/raw/
+# Keep extracted results
+!reports/
+!reports/extracted/
+!reports/extracted/*.json
+!reports/extracted/*.md
+!reports/extracted/*.csv
+
+# ── Keep results figures ──────────────────────────────────────────────────────
+!results/
+!results/figures/
+!results/figures/*.png
+
+# ── Python clutter ────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+.env
+
+# ── Credentials — never commit ────────────────────────────────────────────────
+*.key
+cdse_credentials.txt
+.anthropic_key
+secrets.json
+
+# ── OS clutter ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

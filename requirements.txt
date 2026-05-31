@@ -1,0 +1,27 @@
+# Scheldt Coastal Instability Pipeline — Dependencies
+# Install: pip install -r requirements.txt
+
+# Core geospatial
+rioxarray>=0.15
+rasterio>=1.3
+pyproj>=3.6
+shapely>=2.0
+
+# Scientific computing
+numpy>=1.24
+scipy>=1.10
+scikit-image>=0.21
+pandas>=2.0
+
+# Visualisation
+matplotlib>=3.7
+
+# Remote sensing / data access
+openeo>=0.27
+ddlpy>=0.4
+owslib>=0.29
+requests>=2.31
+
+# Utilities
+tqdm>=4.65
+richdem>=2.3.3  # optional — for D8 TWI computation
