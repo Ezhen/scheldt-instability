@@ -177,16 +177,24 @@ if res_x <= 6.0:
 else:
     sigma_used = SIGMA
 elev_smooth = gaussian_filter(elev_filled.astype("float64"), sigma=sigma_used)
+_sv = elev_smooth[np.isfinite(elev_smooth)]
 print(f"  ✓ Gaussian smoothing sigma={sigma_used} (px size={res_x:.1f}m)")
+print(f"    Post-smooth: finite={len(_sv):,}  "
+      f"range=[{_sv.min():.2f},{_sv.max():.2f}]" if len(_sv)>0
+      else "    Post-smooth: ALL NaN — check fill step")
 
 
 # ── EVANS-YOUNG DERIVATIVES ───────────────────────────────────────────────────
 
 def evans_young(z, rx, ry):
     L  = (rx + ry) / 2.0
-    z  = z.astype("float64")
+    z  = np.array(z, dtype=np.float64)
+    # Replace any remaining NaN with local mean before padding
+    # to prevent NaN propagation through convolution
+    z_mean = np.nanmean(z)
+    z  = np.where(np.isfinite(z), z, z_mean)
     H, W = z.shape
-    p  = np.pad(z, 1, mode="edge")
+    p  = np.pad(z, 1, mode="reflect")
 
     z_n  = p[0:H,   1:W+1];  z_s  = p[2:H+2, 1:W+1]
     z_e  = p[1:H+1, 2:W+2];  z_w  = p[1:H+1, 0:W  ]
@@ -223,8 +231,14 @@ slope, plan_curv, prof_curv = evans_young(elev_smooth, res_x, res_y)
 for name, arr in [("slope", slope), ("plan_curv", plan_curv),
                    ("prof_curv", prof_curv)]:
     v = arr[np.isfinite(arr)]
-    print(f"  {name:12s}: [{v.min():.5f}, {v.max():.5f}]  "
-          f"std={v.std():.5f}  NaN={np.sum(~np.isfinite(arr)):,}")
+    total = arr.size
+    if len(v) == 0:
+        print(f"  {name:12s}: all NaN (water masked) — "
+              f"NaN={np.sum(~np.isfinite(arr)):,}/{total:,}")
+    else:
+        print(f"  {name:12s}: [{v.min():.5f}, {v.max():.5f}]  "
+              f"std={v.std():.5f}  "
+              f"valid={len(v):,}  NaN={np.sum(~np.isfinite(arr)):,}")
 
 
 # ── TWI ───────────────────────────────────────────────────────────────────────
@@ -235,9 +249,16 @@ twi_label = "TWI (D8)"
 existing_twi = Path("./data/scheldt/dem/derivatives/TWI.tif")
 
 if twi_path.exists():
-    print(f"\nTWI found at {twi_path.name} — reusing.")
-    twi = rxr.open_rasterio(twi_path, masked=True).values[0].astype("float32")
-    twi = np.where(water_mask, np.nan, twi)
+    # Verify shape matches current DEM before reusing
+    _twi_check = rxr.open_rasterio(twi_path, masked=True)
+    if _twi_check.values[0].shape == elev.shape:
+        print(f"\nTWI found at {twi_path.name} — reusing (shape matches).")
+        twi = _twi_check.values[0].astype("float32")
+        twi = np.where(water_mask, np.nan, twi)
+    else:
+        print(f"\nTWI shape mismatch "
+              f"({_twi_check.values[0].shape} vs {elev.shape}) — recomputing.")
+        twi_path = Path("__force_recompute__")  # trigger recompute block
 else:
     print("\nComputing TWI ...")
     try:
@@ -281,7 +302,10 @@ def save_tif(arr, path):
         str(path), compress="lzw", dtype="float32"
     )
     v = arr[np.isfinite(arr)]
-    print(f"  ✓ {path.name:35s} [{v.min():.4f}, {v.max():.4f}]")
+    if len(v) > 0:
+        print(f"  ✓ {path.name:35s} [{v.min():.4f}, {v.max():.4f}]")
+    else:
+        print(f"  ✓ {path.name:35s} [all NaN — water masked]")
 
 print("\nSaving ...")
 save_tif(slope,     DERIV_DIR / "slope_degrees.tif")
