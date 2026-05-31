@@ -1,0 +1,6 @@
+site,lon,lat,status,note,nearest_station,nearest_station_code,MHW,MLW,TR,MTL,asymmetry
+Geulwandverdediging,4.17,51.375,stable control,engineered bank / negative control,Bath,BATH,2.709,-2.133,4.842,0.288,1.0833
+Plaat van Saeftinghe,4.05,51.382,eroding / dynamic,plate margin / steepening,Hansweert,HANSWT,2.422,-1.968,4.39,0.227,1.0556
+Land van Saeftinghe east edge,4.16,51.35,eroding hotspot,marsh-edge erosion,Bath,BATH,2.709,-2.133,4.842,0.288,1.0833
+Nauw van Bath,4.2,51.395,dynamic channel,navigation-channel forcing,Bath,BATH,2.709,-2.133,4.842,0.288,1.0833
+Bath,4.212,51.405,tide station / forcing,near upstream AOI boundary,Bath,BATH,2.709,-2.133,4.842,0.288,1.0833
