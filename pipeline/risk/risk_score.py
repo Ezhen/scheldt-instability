@@ -395,10 +395,15 @@ actual_w    = np.array([w for w, _ in available])
 actual_w    = actual_w / actual_w.sum()   # re-normalise for missing layers
 arrs        = [a for _, a in available]
 
-# Build common valid mask
-valid_mask = np.ones(ref_shape, dtype=bool)
+# Build common valid mask — allow 1 missing layer
+# Prevents all-NaN curvature from zeroing everything
+finite_count = np.zeros(ref_shape, dtype=np.int32)
 for arr in arrs:
-    valid_mask &= np.isfinite(arr)
+    finite_count += np.isfinite(arr).astype(np.int32)
+min_layers = max(3, len(arrs) - 1)
+valid_mask  = finite_count >= min_layers
+print(f"  Valid mask: {valid_mask.sum():,} pixels "
+      f"(requiring {min_layers}/{len(arrs)} finite layers)")
 
 # Weighted sum
 risk = np.zeros(ref_shape, dtype="float32")
@@ -423,6 +428,10 @@ risk_smooth = np.where(
 risk_smooth = np.where(valid_mask, risk_smooth, np.nan)
 
 valid_risk = risk_smooth[np.isfinite(risk_smooth)]
+if len(valid_risk) == 0:
+    import sys
+    print("  ✗ Risk score all NaN — check layer inputs")
+    sys.exit(1)
 print(f"  Risk range : [{valid_risk.min():.4f}, {valid_risk.max():.4f}]")
 print(f"  Risk mean  : {valid_risk.mean():.4f}")
 print(f"  Risk std   : {valid_risk.std():.4f}")

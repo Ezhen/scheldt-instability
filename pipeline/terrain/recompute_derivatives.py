@@ -73,7 +73,7 @@ SOURCES = {
         "dem":  "./data/scheldt/dem_ahn4/AHN4_DTM_scheldt_5m_wgs84.tif",
         "out":  "./data/scheldt/dem_ahn4/derivatives",
         "png":  "./data/scheldt/dem_ahn4/terrain_derivatives.png",
-        "sigma": 0.5,   # AHN4 is float32 — less smoothing needed
+        "sigma": 2.0,   # AHN4 5m — sigma=2.0 stabilises curvature
         "label": "AHN4 5m lidar",
     },
 }
@@ -177,7 +177,7 @@ if water_mask.any():
 # Fine resolution (≤6m): less smoothing needed
 # Coarse resolution (>6m): more smoothing to handle integer quantisation
 if res_x <= 6.0:
-    sigma_used = 0.5
+    sigma_used = 2.0
 else:
     sigma_used = SIGMA
 elev_smooth = gaussian_filter(elev_filled.astype("float64"), sigma=sigma_used)
@@ -298,13 +298,12 @@ else:
 
 def save_tif(arr, path):
     arr = arr.astype("float32")
-    da  = ds.sel(band=1).copy(data=arr)
-    da.attrs.pop("_FillValue", None)
-    da.encoding.pop("_FillValue", None)
-    da  = da.rio.write_nodata(float("nan"))
-    da.expand_dims("band").rio.to_raster(
-        str(path), compress="lzw", dtype="float32"
-    )
+    with rasterio.open(DEM_PATH) as _src:
+        _prof = _src.profile.copy()
+    _prof.update(count=1, dtype="float32",
+                 nodata=float("nan"), compress="lzw")
+    with rasterio.open(str(path), "w", **_prof) as _dst:
+        _dst.write(arr[np.newaxis, :, :])
     v = arr[np.isfinite(arr)]
     if len(v) > 0:
         print(f"  ✓ {path.name:35s} [{v.min():.4f}, {v.max():.4f}]")
@@ -348,7 +347,13 @@ if s2_ref is not None:
             da_repr.attrs.pop("_FillValue", None)
             da_repr.encoding.pop("_FillValue", None)
             da_repr = da_repr.rio.write_nodata(float("nan"))
-            da_repr.rio.to_raster(str(out), compress="lzw", dtype="float32")
+            arr_r = da_repr.values[0].astype("float32")
+            with rasterio.open(s2_ref) as _ref:
+                _rp = _ref.profile.copy()
+            _rp.update(count=1, dtype="float32",
+                       nodata=float("nan"), compress="lzw")
+            with rasterio.open(str(out), "w", **_rp) as _dst:
+                _dst.write(arr_r[np.newaxis, :, :])
             print(f"  ✓ {tif.name} → 10m")
         except Exception as e:
             print(f"  ✗ {tif.name} reproject failed: {e.__class__.__name__}: {e}")
