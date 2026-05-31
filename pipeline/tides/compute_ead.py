@@ -1,5 +1,9 @@
 import os
-os.environ["CPL_LOG"] = "/dev/null"
+os.environ["CPL_LOG"]   = "/dev/null"
+os.environ["PROJ_DATA"] = "/home/ulg/mast/eivanov/Yoda/lib/python3.10/site-packages/rasterio/proj_data"
+os.environ["PROJ_LIB"]  = "/home/ulg/mast/eivanov/Yoda/lib/python3.10/site-packages/rasterio/proj_data"
+
+import os
 
 """
 Scheldt Estuary — Elevation Above Datum (EAD)
@@ -168,15 +172,17 @@ print(f"  Vulnerable (MHW–MHW+1m) : {n_vuln:,} pixels  "
 # ── SAVE GEOTIFFS ─────────────────────────────────────────────────────────────
 
 def save_tif(arr, path, label):
-    da = ds.sel(band=1).copy(data=arr.astype("float32"))
-    da.attrs.pop("_FillValue", None)
-    da.encoding.pop("_FillValue", None)
-    da = da.rio.write_nodata(float("nan"))
-    da.expand_dims("band").rio.to_raster(
-        str(path), compress="lzw", dtype="float32"
-    )
+    """Save using rasterio directly — avoids rioxarray lazy eval zeros."""
+    arr = arr.astype("float32")
+    with rasterio.open(DEM_PATH) as src:
+        prof = src.profile.copy()
+    prof.update(count=1, dtype="float32",
+                nodata=float("nan"), compress="lzw")
+    with rasterio.open(str(path), "w", **prof) as dst:
+        dst.write(arr[np.newaxis, :, :])
     valid = arr[np.isfinite(arr)]
-    print(f"  ✓ {label:30s} → {path.name}")
+    print(f"  ✓ {label:30s} → {path.name}  "
+          f"({'range=['+f'{valid.min():.3f},{valid.max():.3f}]' if len(valid)>0 else 'all NaN'})")
 
 
 print("\nSaving ...")
@@ -194,6 +200,15 @@ if s2_ref is not None:
     rs_dir = DERIV_DIR / "resampled_10m"
     rs_dir.mkdir(exist_ok=True)
 
+    with rasterio.open(s2_ref) as ref:
+        dst_t   = ref.transform
+        dst_crs = ref.crs.to_wkt()
+        dst_h   = ref.height
+        dst_w   = ref.width
+        out_prof = ref.profile.copy()
+    out_prof.update(count=1, dtype="float32",
+                    nodata=float("nan"), compress="lzw")
+
     for tif_name in ["EAD.tif", "intertidal_zone.tif",
                       "tidal_flat.tif", "vulnerable_fringe.tif"]:
         tif = DERIV_DIR / tif_name
@@ -201,22 +216,31 @@ if s2_ref is not None:
         if not tif.exists():
             continue
         try:
-            da = rxr.open_rasterio(tif, masked=True)
-            with rasterio.open(s2_ref) as ref:
-                dst_crs_str = ref.crs.to_string()
-                dst_h, dst_w = ref.height, ref.width
-            da_repr = da.rio.reproject(
-                dst_crs_str,
-                shape=(dst_h, dst_w),
+            # Use rasterio.warp directly with explicit src_crs string
+            # Bypasses EngineeringCRS PROJ lookup failure on Yoda
+            with rasterio.open(tif) as src:
+                src_data = src.read(1).astype("float32")
+                src_t    = src.transform
+            dst_data = np.empty((dst_h, dst_w), dtype=np.float32)
+            reproject(
+                source=src_data,
+                destination=dst_data,
+                src_transform=src_t,
+                src_crs="EPSG:28992",   # force RD New — bypass EngineeringCRS
+                dst_transform=dst_t,
+                dst_crs=dst_crs,
                 resampling=Resampling.bilinear,
+                src_nodata=float("nan"),
+                dst_nodata=float("nan"),
             )
-            da_repr.attrs.pop("_FillValue", None)
-            da_repr.encoding.pop("_FillValue", None)
-            da_repr = da_repr.rio.write_nodata(float("nan"))
-            da_repr.rio.to_raster(str(out), compress="lzw", dtype="float32")
-            print(f"  ✓ {tif_name} → 10m")
+            with rasterio.open(str(out), "w", **out_prof) as d:
+                d.write(dst_data[np.newaxis, :, :])
+            v = dst_data[np.isfinite(dst_data)]
+            print(f"  ✓ {tif_name:35s} "
+                  f"finite={len(v):,}  "
+                  f"{'range=['+f'{v.min():.3f},{v.max():.3f}]' if len(v)>0 else 'ALL NaN'}")
         except Exception as e:
-            print(f"  ✗ {tif_name}: {e.__class__.__name__}")
+            print(f"  ✗ {tif_name}: {e.__class__.__name__}: {e}")
 
 
 # ── VISUALISE ────────────────────────────────────────────────────────────────

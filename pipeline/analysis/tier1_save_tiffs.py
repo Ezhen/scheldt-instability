@@ -27,9 +27,13 @@ Usage
 -----
     python tier1_save_tifs.py
 """
+import os
+os.environ["CPL_LOG"]   = "/dev/null"
+os.environ["PROJ_DATA"] = "/home/ulg/mast/eivanov/Yoda/lib/python3.10/site-packages/rasterio/proj_data"
+os.environ["PROJ_LIB"]  = "/home/ulg/mast/eivanov/Yoda/lib/python3.10/site-packages/rasterio/proj_data"
+
 
 import os
-os.environ["CPL_LOG"] = "/dev/null"
 
 import warnings
 import json
