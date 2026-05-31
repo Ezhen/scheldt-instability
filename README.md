@@ -129,7 +129,17 @@ python pipeline/risk/risk_score.py
 # Custom weights:
 python pipeline/risk/risk_score.py --w1 0.30 --w2 0.15 --w3 0.20 --w4 0.15 --w5 0.20
 ```
+--
 
+## Results
+![Risk Index](results/figures/risk_overview.png)
+*Composite instability risk index — Scheldt estuary 2017–2025*
+
+![Terrain](results/figures/terrain_derivatives.png)
+*AHN4 5m lidar terrain derivatives — Evans-Young method*
+
+![Tidal Range Trend](results/figures/tidal_range_trend.png)
+*Tidal range decreasing at all 5 stations 2017–2025*
 ---
 
 ## Methodological Notes
