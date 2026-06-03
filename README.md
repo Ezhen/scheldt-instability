@@ -1,175 +1,222 @@
-# Scheldt Estuary — Coastal Instability Detection
-### Remote Sensing Portfolio Project | Eugène Ivanov | 2025–2026
+# Scheldt Bank Instability Observatory
+
+**Hybrid coastal monitoring system** combining satellite remote sensing with
+hydrodynamic modelling to assess saltmarsh bank instability and sediment
+dynamics in the Western Scheldt estuary (Westerschelde), Netherlands.
+
+Two independent lines of evidence for the same phenomenon:
+- **Satellite pipeline** — multi-decadal Sentinel-2/AHN4 instability index
+- **Hydrodynamic model** — Delft3D FM tidal forcing and erosion stress diagnostics
 
 ---
 
-## Overview
+## Scientific context
 
-A fully automated coastal instability risk assessment for the **Saeftinghe / Western Scheldt** estuary (Belgium / Netherlands), combining multi-temporal satellite imagery, airborne lidar, and in-situ tide gauge data into a composite instability index.
+The Western Scheldt is a macrotidal estuary with a ~4m tidal range and
+significant anthropogenic pressure from the third navigational deepening (2010).
+Saltmarsh banks at Saeftinghe, Plaat van Walsoorden, and Rug van Baarland show
+signs of accelerating erosion documented in the IMDC Monitoringprogramma
+Flexibel Storten reports (2016–2019).
 
-**Study area:** 3.80–4.25°E, 51.28–51.45°N (~30 × 20 km)  
-**Period:** 2017–2025  
-**Output:** Pixel-level instability risk map (5m resolution, 4-class)
-
----
-
-## Key Results
-
-| Metric | Value |
-|---|---|
-| Sentinel-2 snapshots | 27 (seasonal composites) |
-| AHN4 lidar resolution | 5m (Dutch bank) |
-| Tidal range (Vlissingen) | 3.68 m |
-| Mean High Water | +1.979 m NAP |
-| Valid pixels in risk index | 3,871,191 |
-| Mean risk score | 0.356 |
-| Critical risk zones | 10.0% of AOI |
-
-**Scientific finding:** Over 2017–2025, the Saeftinghe marsh shows no significant NDVI browning trend — vegetation is stable. The dominant instability signal is driven by tidal exposure (EAD) and bank geometry (slope/curvature), consistent with a macrotidal system under active management.
+This repository reproduces and extends that monitoring with:
+- Automated satellite time series (2017–2025)
+- A calibrated 2D barotropic DFM tidal model for January 2020
+- ZES.1 ecotope classification aligned with Dutch monitoring standards
 
 ---
 
-## Pipeline Architecture
+## Repository structure
 
 ```
-DATA ACQUISITION
+pipeline/
+├── acquisition/        Data download scripts (Sentinel, AHN4, tides, ERA5)
+├── analysis/           Satellite analysis (NDVI trend, SAR, instability)
+├── terrain/            DEM derivatives (slope, curvature, TWI, EAD)
+├── tides/              Tidal datums and extremes
+├── risk/               Composite risk score pipeline
+├── model/              Delft3D FM hydrodynamic model pipeline
+└── utils/              Visualisation and diagnostics
+
+dfm_v5_final/           Final DFM model configuration (200m mesh, Jan 2020)
+data/scheldt/
+├── figures/
+│   ├── erosion/        ZES.1 diagnostics, shear stress, current roses
+│   └── model/          Validation figures, harmonic analysis, bed level
+├── monitoring/         RWS tidal station analysis
+├── risk/               Risk score layers and validation
+└── wind/               ERA5 wind forcing diagnostics
+
+docs/                   Methods, data sources, results guide
+results/figures/        Publication-ready summary figures
+```
+
+---
+
+## Pipeline 1 — Satellite Observatory
+
+### Data acquisition
+```
+pipeline/acquisition/
 ├── acquire_scheldt.py      Sentinel-2 L2A + Sentinel-1 GRD via CDSE openEO
 ├── acquire_dem.py          Copernicus GLO-30 DEM via CDSE OData
 ├── acquire_dem_ahn4.py     AHN4 lidar DTM via PDOK WCS (Netherlands only)
 └── acquire_tides.py        Vlissingen tide gauge via Rijkswaterstaat DDL API
+```
 
-ANALYSIS — OPTICAL
+### Analysis — optical
+```
+pipeline/analysis/
 ├── explore_snapshot.py     Single-snapshot visualiser (7 indices)
 ├── tier1_dynamics.py       NDVI trend, waterline migration, instability map
 └── tier1_save_tiffs.py     Export analysis layers as GeoTIFFs
+```
 
-TERRAIN
+### Terrain
+```
+pipeline/terrain/
 ├── recompute_derivatives.py  Evans-Young slope/curvature/TWI (--source ahn4)
 └── compute_ead.py            Elevation Above Datum (EAD = elev − MHW)
+```
 
-RISK SCORING
-└── risk_score.py           Weighted composite of 5 evidence layers → classified map
-
-UTILITIES
-├── debug_dem.py            DEM diagnostic
-└── debug_curv.py           Curvature diagnostic
+### Risk scoring
+```
+pipeline/risk/
+├── risk_score.py           Weighted composite of 5 evidence layers
+├── pioneer_correction.py   Pioneer zone threshold correction
+├── transect_analysis.py    Shoreline retreat rate analysis
+└── validate_risk.py        Ground-truth validation against field data
 ```
 
 ---
 
-## Data Sources
+## Pipeline 2 — Hydrodynamic Model
 
-| Dataset | Source | Resolution | Access |
+Delft3D FM (D-Flow FM 1.2.184) barotropic 2D model of the Western Scheldt
+for January 2020. Model domain: x=[−5000, 80000], y=[368000, 401000] RD New.
+
+### Model setup scripts
+```
+pipeline/model/
+├── acquire_bathymetry.py   EMODnet WCS, 29m resolution, EPSG:4326
+├── generate_mesh.py        meshkernel 8.3.0 variable-resolution mesh
+│                           Casulli refinement: channel 200m, flat 400m, outer 500m
+├── generate_roughness.py   Spatially varying Manning n from AHN4 + Sentinel-2 NDVI
+│                           ZES.1-aligned classification (6 classes, n=0.019–0.045)
+├── generate_spatial_bc.py  Obs-driven tidal BC from RWS monitoring.db
+├── acquire_wind_forcing.py ERA5 10m wind → DFM meteo_on_equidistant_grid
+├── prepare_dfm_model.py    Full DFM input generation (MDU, fieldFile.ini, dimr)
+├── compare_obs.py          Skill metrics vs RWS observations (RMSE, r², skill score)
+├── visualise_dfm.py        Time series, map snapshots, bed level figures
+├── tidal_harmonics.py      Least-squares M2/S2/N2/M4 harmonic analysis
+└── erosion_diagnostics.py  ZES.1 erosion stress diagnostic suite
+```
+
+### Final model configuration (`dfm_v5_final/`)
+| Parameter | Value |
+|---|---|
+| Mesh | 103,224 faces, 200m channel / 400m flat / 500m outer |
+| Bathymetry | EMODnet 29m, IDW onto mesh nodes (3.96M source points) |
+| Manning | Spatial: AHN4 + S2 NDVI, n = 0.019 (channel) to 0.045 (marsh) |
+| Tidal BC | RWS Vlissingen obs, direct interpolation, t₀ = −1.030 m NAP |
+| Discharge | 300 m³/s constant, eastern boundary (Kallosluis) |
+| Wind | Uniform SW 5.66 m/s |
+| Period | 2020-01-01 to 2020-02-01 UTC |
+| Output | Hourly map + 10-min his; τ, ucx/ucy, water depth, Chezy |
+
+### Validation
+| Station | RMSE (m) | r² | Range ratio | Skill |
+|---|---|---|---|---|
+| Vlissingen | 0.241 | 0.947 | 0.97 | 0.945 |
+| Terneuzen | 0.288 | 0.946 | 0.88 | 0.936 |
+| Hansweert | 0.368 | 0.936 | 0.81 | 0.908 |
+| Bath | 0.640 | 0.777 | 0.74 | 0.758 |
+| Kallosluis | 0.689 | 0.773 | 0.70 | 0.748 |
+
+Mesh refinement (500m → 200m): Bath RMSE 1.198 → 0.640 m (−47%), r² 0.505 → 0.777.
+
+### Erosion diagnostics (ZES.1 aligned)
+Figures in `data/scheldt/figures/erosion/`:
+
+| Figure | Description |
+|---|---|
+| `zes_ecotope_map.png` | ZES.1 ecotope classification (Bouma et al. 2005) |
+| `erosion_peak_speed.png` | Peak current speed + 0.2/0.8/1.5 m/s threshold contours |
+| `erosion_tau_mean.png` | Mean bed shear stress + τ_cr contours (sand/mud/marsh) |
+| `erosion_exceedance_mud.png` | Fraction of time τ > 0.40 Pa (cohesive erosion) |
+| `erosion_exceedance_marsh.png` | Fraction of time τ > 1.00 Pa (root zone failure) |
+| `erosion_flood_ebb_ratio.png` | Flood/ebb velocity ratio (transport direction) |
+| `erosion_inundation_freq.png` | Inundation frequency (hydroperiod) |
+| `erosion_residual_speed.png` | Residual current (Eulerian mean) |
+| `erosion_current_rose.png` | Current roses by ZES.1 dynamic class |
+| `erosion_station_timeseries.png` | Speed + shear stress at RWS stations |
+
+---
+
+## The hybrid connection
+
+The satellite risk score and model erosion diagnostics are independent evidence
+for the same processes:
+
+```
+Satellite (2017–2025)              Model (January 2020)
+─────────────────────              ────────────────────
+NDVI loss trend           ←→       High τ > τ_marsh exceedance
+Waterline retreat         ←→       Flood/ebb dominance (landward transport)
+Morphological instability ←→       Peak U > 0.8 m/s (ZES.1 hoogdynamisch)
+Pioneer zone extent       ←→       Inundation frequency (hydroperiod)
+```
+
+Comparison figure: `data/scheldt/risk/speed_correlation.png` —
+correlation between satellite-derived instability index and
+model peak current speed across the intertidal zone.
+
+---
+
+## Data sources
+
+| Dataset | Source | Resolution | Coverage |
 |---|---|---|---|
-| Sentinel-2 L2A | CDSE / ESA | 10m | Free, openEO |
-| Sentinel-1 GRD | CDSE / ESA | 20m | Free, openEO |
-| Copernicus DEM GLO-30 | CDSE | 30m | Free, OData |
-| AHN4 DTM | PDOK / RWS | 5m | Free, WCS |
-| Vlissingen tide gauge | Rijkswaterstaat DDL | Hourly | Free, REST API |
+| Sentinel-2 L2A | CDSE openEO | 10m | 2017–2025, 3 seasons/yr |
+| Sentinel-1 GRD | CDSE openEO | 10m | 2017–2025, 3 seasons/yr |
+| AHN4 DTM | PDOK WCS | 5m | Eastern Scheldt only |
+| EMODnet bathymetry | EMODnet WCS | 29m | Full domain |
+| RWS tidal observations | Rijkswaterstaat DDL | 10-min | 5 stations, 2020 |
+| ERA5 wind | ECMWF CDS | ~31km | January 2020 |
 
-All data sources are **open access**, **no registration required** (except standard CDSE account).
-
----
-
-## Risk Index
-
-```
-Risk = w₁ × MNDWI_instability  (0.25)
-     + w₂ × NDVI_loss           (0.20)
-     + w₃ × Slope               (0.20)
-     + w₄ × Plan_curvature      (0.15)
-     + w₅ × EAD_exposure        (0.20)
-```
-
-All layers normalised to [0,1] before weighting.  
-Classification thresholds: Low <0.25 / Medium 0.25–0.35 / High 0.35–0.45 / Critical >0.45
+Monitoring database (`data/scheldt/monitoring.db`) built by
+`pipeline/acquisition/acquire_monitoring_db.py` — schema in
+`data/scheldt/monitoring_schema.sql`.
 
 ---
 
-## Environment Setup
+## Requirements
 
 ```bash
-# Create environment
-conda create -n scheldt python=3.10
-conda activate scheldt
-
-# Install dependencies
-pip install openeo rioxarray rasterio numpy scipy matplotlib
-pip install scikit-image tqdm pandas ddlpy owslib pyproj richdem
-
-# Yoda HPC note — suppress GDAL/PROJ warnings
-export CPL_LOG=/dev/null
+pip install -r requirements.txt
 ```
+
+Key dependencies: `rasterio`, `pyproj`, `netCDF4`, `meshkernel==8.3.0`,
+`scipy`, `numpy`, `matplotlib`, `pandas`, `openeo`, `cdsapi`
+
+**PROJ fix** required on systems with conda-managed environments —
+see top of any `pipeline/model/` script for the environment variable pattern.
 
 ---
 
-## Running the Pipeline
+## SLURM / HPC
 
+Model runs on CECI/Yoda cluster (nic5). Submit with:
 ```bash
-# 1. Acquire Sentinel-2 data (openEO — ~60 min)
-python pipeline/acquisition/acquire_scheldt.py
-
-# 2. Explore a snapshot
-python pipeline/analysis/explore_snapshot.py data/scheldt/sentinel2/S2_2020_summer.tif
-
-# 3. Tier 1 dynamics
-python pipeline/analysis/tier1_dynamics.py ./data/scheldt/sentinel2/
-python pipeline/analysis/tier1_save_tiffs.py
-
-# 4. Download AHN4 lidar DEM
-python pipeline/terrain/acquire_dem_ahn4.py
-python pipeline/terrain/recompute_derivatives.py --source ahn4
-
-# 5. Tide gauge + EAD
-python pipeline/tides/acquire_tides.py
-python pipeline/tides/compute_ead.py
-
-# 6. Risk score
-python pipeline/risk/risk_score.py
-# Custom weights:
-python pipeline/risk/risk_score.py --w1 0.30 --w2 0.15 --w3 0.20 --w4 0.15 --w5 0.20
+sbatch run_dfm_final.slurm   # 31-day final run, ~3.5h wall time
 ```
---
-
-## Results
-![Risk Index](results/figures/risk_overview.png)
-*Composite instability risk index — Scheldt estuary 2017–2025*
-
-![Terrain](results/figures/terrain_derivatives.png)
-*AHN4 5m lidar terrain derivatives — Evans-Young method*
-
-![Tidal Range Trend](results/figures/tidal_range_trend.png)
-*Tidal range decreasing at all 5 stations 2017–2025*
----
-
-## Methodological Notes
-
-**Evans-Young curvature** — second-order polynomial fitting to 3×3 windows, preferred over `np.gradient` on integer/low-resolution DEMs to avoid denominator instability on flat terrain.
-
-**MNDWI over NDWI** — Modified NDWI (Green−SWIR)/(Green+SWIR) preferred for the turbid macrotidal Scheldt over standard McFeeters NDWI; sharper waterline extraction in high-suspended-sediment conditions.
-
-**Tidal correction** — all S2 waterline analyses should be cross-referenced against Vlissingen gauge timestamps. Winter composites show systematically higher water area due to tidal stage bias.
-
-**AHN4 coverage** — lidar data covers the Dutch bank only. The Belgian Sea Scheldt upstream of the border uses GLO-30 (30m, integer metres). Combined analysis should note the resolution discontinuity.
-
-**TWI caveat** — Topographic Wetness Index computed via richdem D8 flow accumulation. Not physically rigorous for tidal marshes (TWI assumes gravity-driven hydrology); used here as a flatness/wetness proxy only.
 
 ---
 
-## Caveats & Limitations
+## Reference
 
-- AHN4 covers NL bank only — Belgian bank uses 30m GLO-30
-- NDVI browning signal is near-zero for this AOI (stable marsh) — not a bug
-- Tidal stage at S2 acquisition not corrected — affects waterline position estimates
-- Risk index weights are expert-judged, not empirically calibrated
-- No ground truth validation — index is a relative ranking, not absolute probability
+IMDC (2019). Monitoringprogramma Flexibel Storten — Voortgangsrapportage
+2016–2017. Lanckriet T., Pandelaers C., Pieterse A., Van Holland G.
+Report I/RA/11498/18.126/API, Vlaamse Overheid / Afdeling Maritieme Toegang.
 
----
-
-## Citation
-
-```
-Ivanov, E. (2026). Coastal instability detection using multi-source remote 
-sensing: Scheldt estuary case study. Portfolio project, University of Liège.
-Data: ESA Copernicus, Rijkswaterstaat, AHN/PDOK.
-```
+Bouma H., de Jong D.J., Twisk F. & Wolfstein F. (2005). Zoute wateren
+EcotopenStelsel (ZES.1). RIKZ/2005.024, Rijkswaterstaat.
