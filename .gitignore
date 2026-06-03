@@ -1,38 +1,135 @@
-# ── Large raster data — never push ───────────────────────────────────────────
-data/
-*.tif
-*.tiff
-*.db
-*.gpkg
+# ============================================================
+# Scheldt Bank Instability Observatory — .gitignore
+# ============================================================
+# Rule: push code + config + key figures + small CSVs/JSON
+#       ignore large binary data, model output, cache files
+# ============================================================
 
-# ── Reports ───────────────────────────────────────────────────────────────────
-reports/raw/
-# Keep extracted results
-!reports/
-!reports/extracted/
-!reports/extracted/*.json
-!reports/extracted/*.md
-!reports/extracted/*.csv
+# ── DFM MODEL OUTPUT ─────────────────────────────────────────
+# NetCDF output — too large for git (map.nc ~3GB, his.nc ~50MB)
+**/DFM_OUTPUT_*/*.nc
+**/DFM_OUTPUT_*/*.dia
+**/DFM_OUTPUT_*/*.tek
+DFM_OUTPUT_*/
 
-# ── Keep results figures ──────────────────────────────────────────────────────
-!results/
-!results/figures/
-!results/figures/*.png
+# DFM cache and runtime files
+*.cache
+unstruc.dia
+*.dia
 
-# ── Python clutter ────────────────────────────────────────────────────────────
+# Old/intermediate net files — only keep v5
+WesternScheldt_net.nc
+WesternScheldt_net_v2.nc
+WesternScheldt_net_v3.nc
+WesternScheldt_net_v4.nc
+# WesternScheldt_net_v5.nc → KEEP (pushed explicitly)
+
+# Intermediate BC files — keep only the final ones
+tide_west.cmp
+tide_west.pli.cmp
+tide_west.tim
+tide_west_obs_vlissingen_jan2020.bc
+tide_west_spatialBC.bc
+tide_west_spatialBC.pli
+bnd_old.ext
+bnd_spatialBC.ext
+WesternScheldt_v5_200m_obsBC.mdu
+
+# ERA5 wind grid files (large, regenerable from acquire_wind_forcing.py)
+wind_jan2020.amu
+wind_jan2020.amv
+wind_jan2020.amgrid
+
+# ── EXPERIMENT BRANCHES ──────────────────────────────────────
+# These are copies of dfm_clean with minor variations
+# Only dfm_v5_final is the canonical result
+dfm_clean/
+dfm_model/
+dfm_v5_discharge/
+dfm_v5_wind/
+dfm_v5_manning/
+# dfm_v5_final/ → KEEP (pushed explicitly, contains final MDU + config)
+
+# ── LARGE RASTER DATA ────────────────────────────────────────
+# Satellite scenes — too large, downloaded by pipeline scripts
+data/scheldt/sentinel1/S1_*.tif
+data/scheldt/sentinel2/S2_*.tif
+data/scheldt/indices/NDVI_*.tif
+data/scheldt/indices/NDWI_*.tif
+
+# DEM and derived rasters — large, regenerable
+data/scheldt/dem/bathymetry/emodnet_bathy_rd.tif
+data/scheldt/dem/bathymetry/emodnet_bathy_wgs84.tif
+data/scheldt/dem/bathymetry/vaklodingenKB*.nc
+data/scheldt/dem/DEM_scheldt_clipped.tif
+data/scheldt/dem/derivatives/*.tif
+data/scheldt/dem/derivatives/resampled_10m/*.tif
+data/scheldt/dem_ahn4/AHN4_DTM_scheldt_5m_rd.tif
+data/scheldt/dem_ahn4/AHN4_DTM_scheldt_5m_wgs84.tif
+data/scheldt/dem_ahn4/derivatives/*.tif
+data/scheldt/dem_ahn4/derivatives/resampled_10m/*.tif
+
+# Risk and analysis rasters — regenerable
+data/scheldt/risk/*.tif
+data/scheldt/sentinel1/analysis/*.tif
+data/scheldt/sentinel2/analysis/*.tif
+data/scheldt/sentinel2/analysis/qa/*.tif
+
+# ERA5 wind NetCDF — large, redownloadable
+data/scheldt/wind/era5_wind_jan2020.nc
+
+# Tidal harmonics NetCDF output
+dfm_tidal_harmonics.nc
+
+# ── DATABASE ─────────────────────────────────────────────────
+# monitoring.db is large (~50MB) and contains RWS obs data
+# Schema is tracked; data can be rebuilt via acquire_monitoring_db.py
+data/scheldt/monitoring.db
+
+# ── MODEL INPUT LARGE FILES ──────────────────────────────────
+# bedlevel.xyz — 3.96M points, ~120MB, regenerable from acquire_bathymetry.py
+**/bedlevel.xyz
+# roughness_spatial.xyz — 200k points, regenerable from generate_roughness.py
+**/roughness_spatial.xyz
+
+# ── SLURM LOGS ───────────────────────────────────────────────
+slurm_*.out
+slurm_*.err
+dfm_run_*.log
+dfm_clean_run*.log
+dfm_run_wind_test.log
+dfm_run_manning_test.log
+
+# ── SCRATCH / TEMP ────────────────────────────────────────────
+tmp/
+=
+-100]
+bash_check_results
+basic_run_check
+clear_cache
+run_dfm
+run_dfm_manning
+run_dfm_spatial
+run_dfm_wind
+
+# ── PYTHON ───────────────────────────────────────────────────
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
+.ipynb_checkpoints/
 *.egg-info/
-.venv/
-.env
+dist/
+build/
+.eggs/
 
-# ── Credentials — never commit ────────────────────────────────────────────────
-*.key
-cdse_credentials.txt
-.anthropic_key
-secrets.json
-
-# ── OS clutter ────────────────────────────────────────────────────────────────
+# ── OS ────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
+*~
+
+# ── REPORTS / PROPRIETARY ────────────────────────────────────
+# IMDC report is third-party copyrighted material
+reports/imdc_rapport_2016_2017.pdf
+data/scheldt/reports/imdc_rapport_2016_2017.pdf

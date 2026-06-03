@@ -1,0 +1,380 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.02,
+          51.38
+        ]
+      },
+      "properties": {
+        "name": "Plaat van Walsoorden - low-dynamic ecotope area",
+        "macrocel": "3",
+        "issue_type": "morphological_change",
+        "severity": "medium",
+        "lon_approx": "4.02",
+        "lat_approx": "51.38",
+        "in_bounds": "True",
+        "risk_score": "0.3763",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.88,
+          51.4
+        ]
+      },
+      "properties": {
+        "name": "Rug van Baarland - low-dynamic ecotope area",
+        "macrocel": "4",
+        "issue_type": "morphological_change",
+        "severity": "medium",
+        "lon_approx": "3.88",
+        "lat_approx": "51.4",
+        "in_bounds": "True",
+        "risk_score": "0.3651",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.17,
+          51.36
+        ]
+      },
+      "properties": {
+        "name": "Land van Saeftinghe - saltmarsh cliff erosion",
+        "macrocel": "Westerschelde",
+        "issue_type": "erosion",
+        "severity": "medium",
+        "lon_approx": "4.17",
+        "lat_approx": "51.36",
+        "in_bounds": "True",
+        "risk_score": "0.3302",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.25,
+          51.3
+        ]
+      },
+      "properties": {
+        "name": "Beneden-Zeeschelde - siltation exceeding MER estimates",
+        "macrocel": "Beneden-Zeeschelde",
+        "issue_type": "sedimentation",
+        "severity": "medium",
+        "lon_approx": "4.25",
+        "lat_approx": "51.3",
+        "in_bounds": "True",
+        "risk_score": "",
+        "risk_class": "",
+        "risk_class_name": "No data",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.02,
+          51.38
+        ]
+      },
+      "properties": {
+        "name": "Plaat van Walsoorden",
+        "macrocel": "3",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "4.02",
+        "lat_approx": "51.38",
+        "in_bounds": "True",
+        "risk_score": "0.3763",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.87,
+          51.4
+        ]
+      },
+      "properties": {
+        "name": "Rug van Baarland",
+        "macrocel": "4",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "3.87",
+        "lat_approx": "51.4",
+        "in_bounds": "True",
+        "risk_score": "0.3914",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.17,
+          51.36
+        ]
+      },
+      "properties": {
+        "name": "Land van Saeftinghe",
+        "macrocel": "7",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "4.17",
+        "lat_approx": "51.36",
+        "in_bounds": "True",
+        "risk_score": "0.3302",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.21,
+          51.37
+        ]
+      },
+      "properties": {
+        "name": "Bath",
+        "macrocel": "7",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "4.21",
+        "lat_approx": "51.37",
+        "in_bounds": "True",
+        "risk_score": "0.4476",
+        "risk_class": "4",
+        "risk_class_name": "Critical",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "True"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.09,
+          51.4
+        ]
+      },
+      "properties": {
+        "name": "Waarde",
+        "macrocel": "6",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "4.09",
+        "lat_approx": "51.4",
+        "in_bounds": "True",
+        "risk_score": "",
+        "risk_class": "",
+        "risk_class_name": "No data",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.0,
+          51.38
+        ]
+      },
+      "properties": {
+        "name": "Ossenisse / Knuitershoek",
+        "macrocel": "5",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "4.0",
+        "lat_approx": "51.38",
+        "in_bounds": "True",
+        "risk_score": "0.3903",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.92,
+          51.44
+        ]
+      },
+      "properties": {
+        "name": "Biezelingse Ham",
+        "macrocel": "",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "3.92",
+        "lat_approx": "51.44",
+        "in_bounds": "True",
+        "risk_score": "0.4345",
+        "risk_class": "3",
+        "risk_class_name": "High",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "True"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.03,
+          51.37
+        ]
+      },
+      "properties": {
+        "name": "Platen van Hulst",
+        "macrocel": "",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "4.03",
+        "lat_approx": "51.37",
+        "in_bounds": "True",
+        "risk_score": "0.3753",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.88,
+          51.41
+        ]
+      },
+      "properties": {
+        "name": "Baarland",
+        "macrocel": "",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "3.88",
+        "lat_approx": "51.41",
+        "in_bounds": "True",
+        "risk_score": "0.4466",
+        "risk_class": "3",
+        "risk_class_name": "High",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "True"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.0,
+          51.44
+        ]
+      },
+      "properties": {
+        "name": "Put van Hansweert",
+        "macrocel": "",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "4.0",
+        "lat_approx": "51.44",
+        "in_bounds": "True",
+        "risk_score": "",
+        "risk_class": "",
+        "risk_class_name": "No data",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.99,
+          51.38
+        ]
+      },
+      "properties": {
+        "name": "Inloop Ossenisse",
+        "macrocel": "",
+        "issue_type": "",
+        "severity": "",
+        "lon_approx": "3.99",
+        "lat_approx": "51.38",
+        "in_bounds": "True",
+        "risk_score": "0.4273",
+        "risk_class": "2",
+        "risk_class_name": "Medium",
+        "expected_min_class": "3",
+        "expected_class_name": "High",
+        "validated": "False"
+      }
+    }
+  ]
+}
