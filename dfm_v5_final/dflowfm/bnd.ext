@@ -1,0 +1,17 @@
+[General]
+fileVersion           = 2.01
+
+[Boundary]
+quantity              = waterlevelbnd
+locationFile          = tide_west.pli
+forcingFile           = tide_west.bc
+
+[Boundary]
+quantity              = dischargebnd
+locationFile          = discharge_east.pli
+forcingFile           = discharge_east.bc
+
+[Meteo]
+quantity              = windxy
+forcingFile           = wind_uniform.wnd
+forcingFileType       = uniform

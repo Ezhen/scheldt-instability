@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dimrConfig xmlns="http://schemas.deltares.nl/dimr"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://schemas.deltares.nl/dimr
+            http://content.oss.deltares.nl/schemas/dimr-1.3.xsd">
+    <documentation>
+        <fileVersion>1.3</fileVersion>
+        <createdBy>prepare_dfm_model.py</createdBy>
+        <creationDate>2026-06-01T10:06:29</creationDate>
+    </documentation>
+    <control>
+        <start name="DFM"/>
+    </control>
+    <component name="DFM">
+        <library>dflowfm</library>
+        <workingDir>/model/dflowfm</workingDir>
+        <inputFile>WesternScheldt.mdu</inputFile>
+    </component>
+</dimrConfig>

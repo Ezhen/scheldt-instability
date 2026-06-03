@@ -1,0 +1,161 @@
+[model]
+Program              = D-Flow FM
+
+[Geometry]
+NetFile               = WesternScheldt_net_v5.nc
+BedLevType      = 3                  ; Sample points format
+SampleFile      = bedlevel.xyz       ; <--- CHANGE BedLevFile to SampleFile
+BedLevUni       = -5.0
+AngLat          = 51.37
+AngLon          = 4.05
+Conveyance2D    = -1
+NonLin2D        = 0
+ManholeFile     =
+WaterLevIni     = 0.0
+IniFieldFile          = fieldFile.ini
+
+[volumetables]
+UseVolumeTables       = 0
+
+[numerics]
+CFLMax                = 0.7
+AdvecType             = 33
+TimeStepType          = 2
+Limtypmom             = 4
+Limtypsa              = 4
+Vertadvtypsal         = 5
+Icgsolver             = 4
+Maxdegree             = 6
+Tlfsmo                = 86400.
+Slopedrop2D           = 0.
+Drop1D                = 0
+Chkadvd               = 0.1
+Teta0                 = 0.55
+Jbasqbnddownwindhs    = 0
+cstbnd                = 0
+Maxitverticalforestersal = 0
+Maxitverticalforestertem = 0
+Turbulenceadvection   = 3
+AntiCreep             = 0
+Limtyphu              = 0
+Horadvtypzlayer       = 0
+
+[physics]
+UnifFrictCoef         = 0.023
+UnifFrictType         = 1
+UnifFrictCoef1D       = 2.3d-2
+UnifFrictCoefLin      = 0.
+Umodlin               = 0.
+Vicouv                = 0.1
+Dicouv                = 0.1
+Vicoww                = 5.0e-5
+Dicoww                = 5.0e-5
+Vicwminb              = 0.
+Smagorinsky           = 0.
+Elder                 = 0.
+irov                  = 0
+wall_ks               = 0.
+Rhomean               = 1025.
+Idensform             = 1
+Ag                    = 9.81
+TidalForcing          = 0
+SelfAttractionLoading = 0
+Salinity              = 0
+InitialSalinity       = 30.
+DeltaSalinity         = -999.
+Backgroundsalinity    = 30.
+Temperature           = 0
+Backgroundwatertemperature = 6.
+SecondaryFlow         = 0
+Bedformfile           =
+
+[sediment]
+Sedimentmodelnr       = 0
+
+[wind]
+ICdtyp                = 2
+Cdbreakpoints         = 6.3d-4  7.23d-3
+Windspeedbreakpoints  = 0.      100.
+Rhoair                = 1.205
+Relativewind          = 0.
+Windpartialdry        = 1
+
+[time]
+RefDate               = 20200101
+Tzone                 = 0.
+DtUser                = 300.
+DtNodal               = 21600.
+DtMax                 = 30.0
+DtInit                = 1.
+TStart                = 0.
+TStop                 = 2678400.
+AutoTimestep          = 1
+AutoTimestepNoStruct  = 0
+AutoTimestepNoQout    = 1
+
+[restart]
+RestartFile           =
+RestartDateTime       =
+
+[external forcing]
+ExtForceFileNew       = bnd.ext
+
+[output]
+Wrishp_crs            = 0
+Wrishp_weir           = 0
+Wrishp_gate           = 0
+Wrishp_fxw            = 0
+Wrishp_thd            = 0
+Wrishp_obs            = 0
+Wrishp_emb            = 0
+Wrishp_dryarea        = 0
+Wrishp_src            = 0
+Wrishp_pump           = 0
+OutputDir             = DFM_OUTPUT_WesternScheldt
+ObsFile               = obs_points.xyn
+HisFile               = WesternScheldt_his.nc
+HisInterval           = 600.
+MapFile               = WesternScheldt_map.nc
+MapInterval           = 3600.
+RstInterval           = 0. 86400. 0.
+WaqInterval           = 0.
+Writepart_domain      = 1
+NcFormat              = 4
+Wrihis_balance        = 1
+Wrihis_sourcesink     = 1
+Wrihis_turbulence     = 1
+Wrihis_wind           = 0
+Wrihis_rain           = 0
+Wrihis_infiltration   = 0
+Wrihis_temperature    = 0
+Wrihis_waves          = 0
+Wrihis_heat_fluxes    = 0
+Wrihis_salinity       = 0
+Wrihis_density        = 0
+Wrihis_waterlevel_s1  = 1
+Wrihis_waterdepth     = 0
+Wrihis_velocity_vector = 1
+Wrihis_sediment       = 0
+Wrihis_constituents   = 0
+Wrihis_zcor           = 0
+Wrihis_lateral        = 0
+Wrimap_waterlevel_s0  = 0
+Wrimap_waterlevel_s1  = 1
+Wrimap_velocity_component_u0 = 0
+Wrimap_velocity_component_u1 = 1
+Wrimap_velocity_vector = 1
+Wrimap_upward_velocity_component = 0
+Wrimap_density_rho    = 0
+Wrimap_horizontal_viscosity_viu = 0
+Wrimap_horizontal_diffusivity_diu = 0
+Wrimap_waterdepth     = 1
+        Wrimap_chezy          = 1
+        Wrimap_taucurrent     = 1
+Wrimap_sediment       = 0
+Wrimap_spiral_flow    = 0
+Wrimap_constituents   = 0
+Wrimap_wind           = 0
+Wrimap_heat_fluxes    = 0
+Wrimap_tidal_potential = 0
+Richardsononoutput    = 0
+Wrimap_every_dt       = 0
