@@ -1,0 +1,20 @@
+{
+  "weights": {
+    "MNDWI instability": 0.25,
+    "NDVI loss": 0.2,
+    "Slope": 0.2,
+    "Plan curvature": 0.15,
+    "EAD exposure": 0.2
+  },
+  "thresholds": {
+    "Low": 0.25,
+    "Medium": 0.35,
+    "High": 0.45,
+    "Critical": 0.925940215587616,
+    "type": "absolute",
+    "p25": 0.238194078207016,
+    "p50": 0.2958480715751648,
+    "p75": 0.3688012659549713
+  },
+  "n_layers_used": 5
+}

@@ -1,0 +1,5 @@
+predictor,rho_directional,p_directional,rho_magnitude,p_magnitude,n,significant_0.10
+Max fetch (m),0.4588,0.437,0.2294,0.7105,5,False
+MNDWI std,0.1579,0.7998,0.3684,0.5418,5,False
+EAD (m above MHW),1.0,0.0,-0.3333,0.6667,4,True
+Pioneer present,nan,nan,nan,nan,5,False

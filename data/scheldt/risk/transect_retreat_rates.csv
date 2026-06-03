@@ -1,0 +1,35 @@
+name,lon,lat,retreat_rate_m_per_yr,r2,p_value,n_valid,significant,status,issue_type,severity
+Hooge Platen West,3.55,51.42,,,,0,,outside_AOI,,
+Hooge Platen Noord,3.6,51.43,,,,0,,outside_AOI,,
+Plaat van Walsoorden,4.02,51.38,,,,0,,insufficient_data,,
+Rug van Baarland,3.87,51.4,,,,0,,insufficient_data,,
+Land van Saeftinghe,4.17,51.36,0.851,0.0972,0.2998,13,False,~ advance,,
+Bath,4.21,51.37,0.71,0.0006,0.909,25,False,~ advance,,
+Waarde,4.09,51.4,12.262,0.3591,0.0881,9,True,✓ advance,,
+Ossenisse / Knuitershoek,4.0,51.38,,,,0,,insufficient_data,,
+Biezelingse Ham,3.92,51.44,-7.886,0.0861,0.2373,18,False,~ retreat,,
+Platen van Hulst,4.03,51.37,,,,0,,insufficient_data,,
+Baarland,3.88,51.41,,,,0,,insufficient_data,,
+Zuidgors,3.76,51.39,,,,0,,outside_AOI,,
+Paulinapolder,3.69,51.37,,,,0,,outside_AOI,,
+Rammekenshoek,3.58,51.44,,,,0,,outside_AOI,,
+Groot Buitenschoor,4.27,51.32,,,,0,,outside_AOI,,
+Schor Ouden Doel,4.26,51.32,,,,0,,outside_AOI,,
+Paardenschor,4.28,51.31,,,,0,,outside_AOI,,
+Galgeschoor,4.34,51.27,,,,0,,outside_AOI,,
+Ketenisse,4.32,51.27,,,,0,,outside_AOI,,
+Lillo-Haven,4.3,51.29,,,,0,,outside_AOI,,
+Lillo-Potpolder,4.3,51.3,,,,0,,outside_AOI,,
+Galgenweel,4.38,51.23,,,,0,,outside_AOI,,
+Hobokense Polder,4.37,51.18,,,,0,,outside_AOI,,
+Suikerplaat,3.75,51.38,,,,0,,outside_AOI,,
+Put van Hansweert,4.0,51.44,,,,0,,insufficient_data,,
+Inloop Ossenisse,3.99,51.38,,,,0,,insufficient_data,,
+Boerenschans,4.29,51.3,,,,0,,outside_AOI,,
+Hooge Platen West and Noord - low-dynamic ecotope area,3.66,51.42,,,,0,,outside_AOI,morphological_change,medium
+Plaat van Walsoorden - low-dynamic ecotope area,4.02,51.38,,,,0,,insufficient_data,morphological_change,medium
+Rug van Baarland - low-dynamic ecotope area,3.88,51.4,,,,0,,insufficient_data,morphological_change,medium
+Land van Saeftinghe - saltmarsh cliff erosion,4.17,51.36,0.851,0.0972,0.2998,13,False,~ advance,erosion,medium
+Paulinapolder - saltmarsh cliff erosion,3.72,51.37,,,,0,,outside_AOI,erosion,low
+Zuidgors - saltmarsh cliff erosion,3.6,51.38,,,,0,,outside_AOI,erosion,low
+Beneden-Zeeschelde - siltation exceeding MER estimates,4.25,51.3,,,,0,,outside_AOI,sedimentation,medium

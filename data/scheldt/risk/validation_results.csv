@@ -1,0 +1,35 @@
+name,macrocel,issue_type,severity,lon_approx,lat_approx,in_bounds,risk_score,risk_class,risk_class_name,expected_min_class,expected_class_name,validated
+Hooge Platen West and Noord - low-dynamic ecotope area,1,morphological_change,medium,3.66,51.42,False,,,Outside AOI,,,
+Plaat van Walsoorden - low-dynamic ecotope area,3,morphological_change,medium,4.02,51.38,True,0.3763,2,Medium,3,High,False
+Rug van Baarland - low-dynamic ecotope area,4,morphological_change,medium,3.88,51.4,True,0.3651,2,Medium,3,High,False
+Land van Saeftinghe - saltmarsh cliff erosion,Westerschelde,erosion,medium,4.17,51.36,True,0.3302,2,Medium,3,High,False
+Paulinapolder - saltmarsh cliff erosion,Westerschelde,erosion,low,3.72,51.37,False,,,Outside AOI,,,
+Zuidgors - saltmarsh cliff erosion,Westerschelde,erosion,low,3.6,51.38,False,,,Outside AOI,,,
+Beneden-Zeeschelde - siltation exceeding MER estimates,Beneden-Zeeschelde,sedimentation,medium,4.25,51.3,True,,,No data,3,High,
+Hooge Platen West,1,,,3.55,51.42,False,,,Outside AOI,,,
+Hooge Platen Noord,1,,,3.6,51.43,False,,,Outside AOI,,,
+Plaat van Walsoorden,3,,,4.02,51.38,True,0.3763,2,Medium,3,High,False
+Rug van Baarland,4,,,3.87,51.4,True,0.3914,2,Medium,3,High,False
+Land van Saeftinghe,7,,,4.17,51.36,True,0.3302,2,Medium,3,High,False
+Bath,7,,,4.21,51.37,True,0.4476,4,Critical,3,High,True
+Waarde,6,,,4.09,51.4,True,,,No data,3,High,
+Ossenisse / Knuitershoek,5,,,4.0,51.38,True,0.3903,2,Medium,3,High,False
+Biezelingse Ham,,,,3.92,51.44,True,0.4345,3,High,3,High,True
+Platen van Hulst,,,,4.03,51.37,True,0.3753,2,Medium,3,High,False
+Baarland,,,,3.88,51.41,True,0.4466,3,High,3,High,True
+Zuidgors,,,,3.76,51.39,False,,,Outside AOI,,,
+Paulinapolder,,,,3.69,51.37,False,,,Outside AOI,,,
+Rammekenshoek,,,,3.58,51.44,False,,,Outside AOI,,,
+Groot Buitenschoor,,,,4.27,51.32,False,,,Outside AOI,,,
+Schor Ouden Doel,,,,4.26,51.32,False,,,Outside AOI,,,
+Paardenschor,,,,4.28,51.31,False,,,Outside AOI,,,
+Galgeschoor,,,,4.34,51.27,False,,,Outside AOI,,,
+Ketenisse,,,,4.32,51.27,False,,,Outside AOI,,,
+Lillo-Haven,,,,4.3,51.29,False,,,Outside AOI,,,
+Lillo-Potpolder,,,,4.3,51.3,False,,,Outside AOI,,,
+Galgenweel,,,,4.38,51.23,False,,,Outside AOI,,,
+Hobokense Polder,,,,4.37,51.18,False,,,Outside AOI,,,
+Suikerplaat,,,,3.75,51.38,False,,,Outside AOI,,,
+Put van Hansweert,,,,4.0,51.44,True,,,No data,3,High,
+Inloop Ossenisse,,,,3.99,51.38,True,0.4273,2,Medium,3,High,False
+Boerenschans,,,,4.29,51.3,False,,,Outside AOI,,,

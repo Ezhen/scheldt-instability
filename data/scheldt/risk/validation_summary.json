@@ -1,0 +1,99 @@
+{
+  "n_sites_total": 34,
+  "n_in_bounds": 12,
+  "n_validated": 3,
+  "n_not_detected": 9,
+  "detection_rate": 0.25,
+  "per_site": [
+    {
+      "name": "Plaat van Walsoorden - low-dynamic ecotope area",
+      "risk_score": 0.3763,
+      "risk_class": "Medium",
+      "validated": false
+    },
+    {
+      "name": "Rug van Baarland - low-dynamic ecotope area",
+      "risk_score": 0.3651,
+      "risk_class": "Medium",
+      "validated": false
+    },
+    {
+      "name": "Land van Saeftinghe - saltmarsh cliff erosion",
+      "risk_score": 0.3302,
+      "risk_class": "Medium",
+      "validated": false
+    },
+    {
+      "name": "Beneden-Zeeschelde - siltation exceeding MER estimates",
+      "risk_score": null,
+      "risk_class": "No data",
+      "validated": null
+    },
+    {
+      "name": "Plaat van Walsoorden",
+      "risk_score": 0.3763,
+      "risk_class": "Medium",
+      "validated": false
+    },
+    {
+      "name": "Rug van Baarland",
+      "risk_score": 0.3914,
+      "risk_class": "Medium",
+      "validated": false
+    },
+    {
+      "name": "Land van Saeftinghe",
+      "risk_score": 0.3302,
+      "risk_class": "Medium",
+      "validated": false
+    },
+    {
+      "name": "Bath",
+      "risk_score": 0.4476,
+      "risk_class": "Critical",
+      "validated": true
+    },
+    {
+      "name": "Waarde",
+      "risk_score": null,
+      "risk_class": "No data",
+      "validated": null
+    },
+    {
+      "name": "Ossenisse / Knuitershoek",
+      "risk_score": 0.3903,
+      "risk_class": "Medium",
+      "validated": false
+    },
+    {
+      "name": "Biezelingse Ham",
+      "risk_score": 0.4345,
+      "risk_class": "High",
+      "validated": true
+    },
+    {
+      "name": "Platen van Hulst",
+      "risk_score": 0.3753,
+      "risk_class": "Medium",
+      "validated": false
+    },
+    {
+      "name": "Baarland",
+      "risk_score": 0.4466,
+      "risk_class": "High",
+      "validated": true
+    },
+    {
+      "name": "Put van Hansweert",
+      "risk_score": null,
+      "risk_class": "No data",
+      "validated": null
+    },
+    {
+      "name": "Inloop Ossenisse",
+      "risk_score": 0.4273,
+      "risk_class": "Medium",
+      "validated": false
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "station": "VLISSGN",
+  "period": "2017-01-01 to 2025-12-31",
+  "n_hw": 6350,
+  "n_lw": 6349,
+  "MHW": 1.9789,
+  "MLW": -1.697,
+  "MTL": 0.1409,
+  "TR": 3.6759,
+  "MHWS": 2.4067,
+  "MLWS": -2.0517,
+  "MHWN": 1.48,
+  "MLWN": -1.3267,
+  "MSL": 0.0101,
+  "units": "m NAP",
+  "note": "MHW/MLW = mean of all HW/LW peaks. MHWS = 90th percentile HW (spring). MLWS = 10th percentile LW (spring). EAD = elevation - MHW."
+}

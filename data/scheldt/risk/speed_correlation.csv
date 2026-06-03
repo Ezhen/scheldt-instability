@@ -1,0 +1,6 @@
+name,retreat_rate,significant,max_fetch_m,mean_fetch_m,mndwi_std,ead_m,pioneer_present,issue_type,severity
+Land van Saeftinghe,0.851,False,10.0,10.0,0.05945,0.54,0,,
+Bath,0.71,False,150.0,27.5,0.16422,-0.43,0,,
+Waarde,12.262,True,4730.0,1751.2,0.20238,nan,0,,
+Biezelingse Ham,-7.886,False,10.0,10.0,0.12547,-1.392,0,,
+Land van Saeftinghe - saltmarsh cliff erosion,0.851,False,10.0,10.0,0.05945,0.54,0,erosion,medium

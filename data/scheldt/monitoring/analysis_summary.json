@@ -1,0 +1,71 @@
+{
+  "tidal_asymmetry": {
+    "VLISSGN": {
+      "name": "Vlissingen",
+      "lon": 3.596,
+      "MHW": 2.047,
+      "MLW": -1.743,
+      "TR": 3.79,
+      "MTL": 0.152,
+      "flood_dur_hr": 6.0,
+      "ebb_dur_hr": 6.333,
+      "asymmetry": 1.0556,
+      "dominant": "ebb"
+    },
+    "TERNZN": {
+      "name": "Terneuzen",
+      "lon": 3.83,
+      "MHW": 2.273,
+      "MLW": -1.842,
+      "TR": 4.116,
+      "MTL": 0.216,
+      "flood_dur_hr": 5.833,
+      "ebb_dur_hr": 6.5,
+      "asymmetry": 1.1143,
+      "dominant": "ebb"
+    },
+    "HANSWT": {
+      "name": "Hansweert",
+      "lon": 3.996,
+      "MHW": 2.422,
+      "MLW": -1.968,
+      "TR": 4.39,
+      "MTL": 0.227,
+      "flood_dur_hr": 6.0,
+      "ebb_dur_hr": 6.333,
+      "asymmetry": 1.0556,
+      "dominant": "ebb"
+    },
+    "BATH": {
+      "name": "Bath",
+      "lon": 4.212,
+      "MHW": 2.709,
+      "MLW": -2.133,
+      "TR": 4.842,
+      "MTL": 0.288,
+      "flood_dur_hr": 6.0,
+      "ebb_dur_hr": 6.5,
+      "asymmetry": 1.0833,
+      "dominant": "ebb"
+    },
+    "KALLSLZS": {
+      "name": "Kallosluis",
+      "lon": 4.291,
+      "MHW": 2.969,
+      "MLW": -2.261,
+      "TR": 5.23,
+      "MTL": 0.354,
+      "flood_dur_hr": 5.5,
+      "ebb_dur_hr": 6.833,
+      "asymmetry": 1.2424,
+      "dominant": "ebb"
+    }
+  },
+  "station_mhw": {
+    "VLISSGN": 2.047,
+    "TERNZN": 2.273,
+    "HANSWT": 2.422,
+    "BATH": 2.709,
+    "KALLSLZS": 2.969
+  }
+}
