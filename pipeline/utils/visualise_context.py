@@ -201,7 +201,9 @@ def load_ground_truth(path: Path) -> pd.DataFrame:
         rows.append(
             {
                 "obs_id": i,
-                "class": p.get("class", p.get("status", "Unknown")),
+                "class": p.get("class", p.get("ground_truth_class",
+                         p.get("risk_class_name",
+                         p.get("issue_type", "Unknown")))),
                 "risk_rank": p.get("risk_rank", np.nan),
                 "page": p.get("page", np.nan),
                 "lon": lon,
@@ -379,13 +381,27 @@ def make_figure(stations: pd.DataFrame, gt: pd.DataFrame, outdir: Path) -> None:
     ax3 = fig.add_subplot(gs[1, 0])
     style_dark(ax3)
     ax3.set_title("C. Report-derived ground-truth evidence", fontweight="bold", pad=10)
-    counts = gt["class"].value_counts().reindex(["Dynamic", "Stable"]).fillna(0)
-    colors = ["#ff9f1c", "#4aa3df"]
-    bars = ax3.bar(counts.index, counts.values, color=colors, edgecolor="white", linewidth=0.5)
-    ax3.set_ylabel("Number of observations")
-    for b in bars:
-        ax3.text(b.get_x() + b.get_width()/2, b.get_height() + 0.5, f"{int(b.get_height())}",
-                 color="white", ha="center", va="bottom", fontsize=11, fontweight="bold")
+    # Show issue type distribution from validation sites
+    cls_field = None
+    for f in ["issue_type", "class", "ground_truth_class",
+               "risk_class_name", "status"]:
+        if f in gt.columns and gt[f].notna().any():
+            cls_field = f; break
+    if cls_field:
+        counts = gt[cls_field].value_counts().head(6)
+        colors_c = ["#EF5350","#FF9800","#4CAF50","#42A5F5","#AB47BC","#EC407A"]
+        bars = ax3.bar(counts.index, counts.values,
+                        color=colors_c[:len(counts)],
+                        edgecolor="white", linewidth=0.5)
+        ax3.set_ylabel("Number of sites")
+        ax3.tick_params(axis="x", labelrotation=25)
+        for b in bars:
+            ax3.text(b.get_x()+b.get_width()/2, b.get_height()+0.1,
+                     str(int(b.get_height())), color="white",
+                     ha="center", va="bottom", fontsize=10, fontweight="bold")
+    else:
+        ax3.text(0.5, 0.5, "No class data", transform=ax3.transAxes,
+                  color="white", ha="center", va="center")
     ax3.text(
         0.02, 0.95,
         "Use these as validation anchors, not as training labels.\n"
@@ -417,15 +433,17 @@ def make_figure(stations: pd.DataFrame, gt: pd.DataFrame, outdir: Path) -> None:
 
     fig.suptitle(
         "Scheldt Observatory — spatial evidence and hydrodynamic forcing context",
-        color="white", fontsize=15, fontweight="bold", y=0.98,
+        color="white", fontsize=13, fontweight="bold",
     )
+    fig.subplots_adjust(top=0.93, bottom=0.06, left=0.07,
+                         right=0.97, hspace=0.30, wspace=0.20)
 
     png = outdir / "scheldt_context_overview.png"
     pdf = outdir / "scheldt_context_overview.pdf"
     csv = outdir / "scheldt_context_site_table.csv"
     sites.to_csv(csv, index=False)
-    fig.savefig(png, dpi=180, bbox_inches="tight", facecolor="#0e0e0e")
-    fig.savefig(pdf, bbox_inches="tight", facecolor="#0e0e0e")
+    fig.savefig(png, dpi=150, bbox_inches=None, facecolor="#0e0e0e")
+    fig.savefig(pdf, bbox_inches=None, facecolor="#0e0e0e")
     plt.close(fig)
 
     print(f"Saved: {png}")

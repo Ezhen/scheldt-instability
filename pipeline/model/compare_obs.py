@@ -77,11 +77,11 @@ MAP_NC = BASE / "DFM_OUTPUT_WesternScheldt/WesternScheldt_map.nc"
 # Corrected station face indices — nearest deep channel cell (bed < -5m)
 # Determined by find_channel_cells diagnostic (avoid intertidal sampling)
 CORRECTED_XY = {
-    "Vlissingen": (14750, 382250),
-    "Terneuzen":  (26750, 381250),
-    "Hansweert":  (36750, 383250),
-    "Bath":       (55750, 381750),
-    "Kallosluis": (60750, 377750),
+    "Vlissingen": (14743, 382503),   # v5 mesh, bed=-11.2m
+    "Terneuzen":  (26373, 381501),   # v5 mesh, bed=-5.6m, dist=1795m (channel narrow here)
+    "Hansweert":  (36750, 383248),   # v5 mesh, bed=-16.5m
+    "Bath":       (55759, 381499),   # v5 mesh, bed=-17.1m
+    "Kallosluis": (60765, 378104),   # v5 mesh, bed=-6.3m
 }
 
 from scipy.spatial import cKDTree
