@@ -1,0 +1,73 @@
+{
+  "period": {
+    "start_day": 3.0,
+    "end_day": 31.0,
+    "spinup_days": 3.0
+  },
+  "spring_neap": {
+    "spring_period_days": "9.0-13.0 and 24.0-28.0",
+    "neap_period_days": "2.5-6.0 and 16.5-20.0",
+    "mean_ratio_channel": 1.471526127896483,
+    "mean_ratio_intertidal": 1.6929244111223858,
+    "max_ratio": 17.022091717179293
+  },
+  "storm_jan13_14": {
+    "storm_period_days": "12.5-14.5",
+    "mean_storm_calm_ratio": 1.2714119697527584,
+    "max_storm_calm_ratio": 8.482320105874438
+  },
+  "critical_duration_per_spring_tide": {
+    "Vlissingen": {
+      "tau_sand_h": 79.5,
+      "tau_mud_h": 68.5,
+      "tau_marsh_h": 55.5
+    },
+    "Terneuzen": {
+      "tau_sand_h": 60.5,
+      "tau_mud_h": 39.0,
+      "tau_marsh_h": 18.5
+    },
+    "Hansweert": {
+      "tau_sand_h": 80.0,
+      "tau_mud_h": 71.0,
+      "tau_marsh_h": 55.5
+    },
+    "Bath": {
+      "tau_sand_h": 86.0,
+      "tau_mud_h": 78.0,
+      "tau_marsh_h": 65.5
+    },
+    "Kallosluis": {
+      "tau_sand_h": 34.5,
+      "tau_mud_h": 3.0,
+      "tau_marsh_h": 0.0
+    }
+  },
+  "station_spring_neap": {
+    "Vlissingen": {
+      "tau_spring_Pa": 1.5867107731930876,
+      "tau_neap_Pa": 1.0825841969317953,
+      "ratio": 1.4656696243027212
+    },
+    "Terneuzen": {
+      "tau_spring_Pa": 0.6330000298747586,
+      "tau_neap_Pa": 0.37033369772511704,
+      "ratio": 1.7092693259164538
+    },
+    "Hansweert": {
+      "tau_spring_Pa": 1.4484879446899528,
+      "tau_neap_Pa": 0.986870415746055,
+      "ratio": 1.4677590102799096
+    },
+    "Bath": {
+      "tau_spring_Pa": 2.2153908620569016,
+      "tau_neap_Pa": 1.5884268070992786,
+      "ratio": 1.3947075509903788
+    },
+    "Kallosluis": {
+      "tau_spring_Pa": 0.13132458287681037,
+      "tau_neap_Pa": 0.10948002555161174,
+      "ratio": 1.1995300714914479
+    }
+  }
+}
